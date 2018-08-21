@@ -103,7 +103,7 @@ def main():
             100 * round_score(evaluation["BLEX"].f1))))
 
         for metric in metrics:
-            results.append((ltcode+"-"+metric+"-F1", "{:.2f}".format(100 * evaluation[metric].f1)))
+            results.append((ltcode+"-"+metric+"-F1", "{:.9f}".format(100 * evaluation[metric].f1)))
             summation[metric] = summation.get(metric, 0) + evaluation[metric].f1
         results_las[ltcode] = evaluation["LAS"].f1
         results_mlas[ltcode] = evaluation["MLAS"].f1
@@ -111,7 +111,7 @@ def main():
 
     # Compute averages
     for metric in reversed(metrics):
-        results.insert(0, ("total-"+metric+"-F1", "{:.2f}".format(100 * summation.get(metric, 0) / treebanks)))
+        results.insert(0, ("total-"+metric+"-F1", "{:.9f}".format(100 * summation.get(metric, 0) / treebanks)))
 
     # Generate evaluation.prototext
     with open(args.output + "/evaluation.prototext", "w") as evaluation:
@@ -124,7 +124,7 @@ def main():
             continue
 
         ltcode = key[:-len("-Status")]
-        print("{:13} LAS={:6.2f}% MLAS={:6.2f}% BLEX={:6.2f}% ({})".format(
+        print("{:13} LAS={:10.6f}% MLAS={:10.6f}% BLEX={:10.6f}% ({})".format(
             ltcode,
             100 * results_las.get(ltcode, 0.), 100 * results_mlas.get(ltcode, 0.), 100 * results_blex.get(ltcode, 0.),
             value), file=sys.stdout)
